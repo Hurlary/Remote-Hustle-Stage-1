@@ -1,3 +1,9 @@
+// At the TOP of app.js, add this:
+// Save sample data to localStorage on first load
+if (!localStorage.getItem('rentdirect_houses')) {
+    localStorage.setItem('rentdirect_houses', JSON.stringify(houses));
+}
+
 // Sample house data (in real app, this comes from localStorage)
 let houses = [
     {
