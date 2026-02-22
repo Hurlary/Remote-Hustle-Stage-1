@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadListingDetail(id) {
+    // Get houses from localStorage
     const houses = JSON.parse(localStorage.getItem('rentdirect_houses')) || [];
     const house = houses.find(h => h.id === id);
     
     if (!house) {
         document.getElementById('listingContent').innerHTML = `
-            <div class="loading-detail">
+            <div class="loading-detail" style="text-align: center; padding: 4rem;">
                 <h3>Listing not found</h3>
-                <p><a href="index.html">← Back to listings</a></p>
+                <p>The house may have been removed.</p>
+                <p><a href="index.html" style="color: #ffcab2; font-weight: bold;">← Back to all listings</a></p>
             </div>
         `;
         return;
