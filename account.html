@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - RentDirect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-small">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>🏠 RentDirect</h1>
+        </div>
+    </header>
+
+    <!-- Account Header -->
+    <section class="account-header">
+        <div class="container">
+            <h1 id="welcomeName">Welcome!</h1>
+            <p>Manage your properties and account</p>
+            
+            <div class="account-stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="listingCount">0</div>
+                    <div class="stat-label">My Listings</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="viewCount">0</div>
+                    <div class="stat-label">Total Views</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Sidebar -->
+                <nav class="sidebar-menu">
+                    <a href="account.html" class="active">📋 My Listings</a>
+                    <a href="add-listing.html">➕ Add New Listing</a>
+                    <a href="#" onclick="alert('Feature coming soon!')">⚙️ Settings</a>
+                    <a href="#" onclick="logout()">🚪 Logout</a>
+                </nav>
+
+                <!-- Content -->
+                <div class="dashboard-content">
+                    <h3>My Property Listings</h3>
+                    <div id="myListings">
+                        <!-- Listings loaded via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/auth.js"></script>
+    <script src="js/account.js"></script>
+</body>
+</html>

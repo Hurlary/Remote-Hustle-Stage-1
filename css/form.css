@@ -1,0 +1,207 @@
+/* ============================================
+   FORM STYLES
+   ============================================ */
+
+.form-section {
+    padding: 2rem 0 4rem;
+    background: var(--bg-light);
+    min-height: calc(100vh - 200px);
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow);
+}
+
+.form-container h2 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.form-subtitle {
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #ffe7dc;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--bg-white);
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff9f6;
+}
+
+.form-group small {
+    display: block;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+/* Two Column Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Checkboxes */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.checkbox-label:hover {
+    border-color: var(--primary);
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Section Title */
+.section-title {
+    color: var(--text-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+    font-size: 1.2rem;
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--analogous-1) 100%);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 202, 178, 0.4);
+}
+
+/* Success Modal */
+.success-content {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.success-content h3 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.success-content p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.success-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--text-dark);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-medium);
+    border: 2px solid var(--primary);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+/* Validation Styles */
+.form-group input:invalid:not(:placeholder-shown),
+.form-group select:invalid:not(:placeholder-shown) {
+    border-color: #ffb2c1;
+}
+
+.form-group input:valid:not(:placeholder-shown),
+.form-group select:valid:not(:placeholder-shown) {
+    border-color: #b2ffca;
+}

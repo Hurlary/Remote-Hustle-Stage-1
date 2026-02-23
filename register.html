@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - RentDirect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-small">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>🏠 RentDirect</h1>
+        </div>
+    </header>
+
+    <!-- Auth Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <h2>Create Account</h2>
+                    <p>Join RentDirect to list your properties</p>
+                </div>
+
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" required 
+                               placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required 
+                               placeholder="john@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" required 
+                               placeholder="08012345678">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" required 
+                               placeholder="••••••••" minlength="6">
+                        <small>At least 6 characters</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userType">I am a *</label>
+                        <select id="userType" required>
+                            <option value="landlord">Landlord / Property Owner</option>
+                            <option value="renter">Looking to Rent</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

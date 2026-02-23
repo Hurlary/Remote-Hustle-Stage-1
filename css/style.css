@@ -359,3 +359,94 @@ footer p {
 .empty-state p {
     color: var(--text-light);
 }
+/* ============================================
+   HEADER AUTH BUTTONS
+   ============================================ */
+
+.logo-section {
+    text-align: left;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-login {
+    padding: 10px 24px;
+    border: 2px solid var(--text-dark);
+    color: var(--text-dark);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    background: var(--text-dark);
+    color: var(--primary);
+}
+
+.btn-register {
+    padding: 10px 24px;
+    background: var(--text-dark);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-register:hover {
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+/* Logged-in state */
+.user-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-menu-header span {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.btn-account {
+    padding: 10px 20px;
+    background: var(--text-dark);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-logout-header {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--text-dark);
+    color: var(--text-dark);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .logo-section {
+        text-align: center;
+    }
+    
+    .auth-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+}
