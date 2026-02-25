@@ -26,6 +26,12 @@
     <section class="search-section">
         <div class="container">
             <h2>Find Your Next Home</h2>
+            
+            <!-- NEW: Live Search -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Search by house name, location, or features..." onkeyup="liveSearch()">
+            </div>
+            
             <div class="search-filters">
                 <select id="locationFilter">
                     <option value="">All Locations</option>
@@ -48,7 +54,6 @@
             </div>
         </div>
     </section>
-
     <!-- Listings Grid -->
     <section class="listings-section">
         <div class="container">

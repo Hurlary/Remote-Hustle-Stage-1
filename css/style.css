@@ -450,3 +450,114 @@ footer p {
         justify-content: center;
     }
 }
+/* ============================================
+   SEARCH BAR
+   ============================================ */
+
+.search-bar {
+    margin-bottom: 1.5rem;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 16px 24px;
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    font-size: 1rem;
+    background: var(--bg-white);
+    transition: all 0.3s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    box-shadow: 0 4px 15px rgba(255, 202, 178, 0.4);
+}
+
+.search-bar input::placeholder {
+    color: var(--text-light);
+}
+
+/* Loading Animation */
+.loading-skeleton {
+    background: linear-gradient(90deg, #ffe7dc 25%, #fff3ee 50%, #ffe7dc 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 12px;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Fade In Animation */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    grid-column: 1 / -1;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.no-results h3 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.no-results p {
+    color: var(--text-light);
+}
+/* ============================================
+   PAGE TRANSITIONS
+   ============================================ */
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* House card enhanced hover */
+.house-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.house-card:active {
+    transform: scale(0.98);
+}
+
+/* Button press effect */
+button:active, .btn-add:active {
+    transform: scale(0.95);
+}
+
+/* Image zoom on hover */
+.house-image {
+    overflow: hidden;
+}
+
+.house-image img {
+    transition: transform 0.5s ease;
+}
+
+.house-card:hover .house-image img {
+    transform: scale(1.05);
+}
+
+/* Staggered animation for cards */
+.house-card:nth-child(1) { animation-delay: 0s; }
+.house-card:nth-child(2) { animation-delay: 0.1s; }
+.house-card:nth-child(3) { animation-delay: 0.2s; }
+.house-card:nth-child(4) { animation-delay: 0.3s; }

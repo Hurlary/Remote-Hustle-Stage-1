@@ -74,3 +74,8 @@ function deleteListing(id) {
     // Reload page
     location.reload();
 }
+// Add this function to account.js
+function viewHouse(id) {
+    localStorage.setItem('rentdirect_viewing', id);
+    window.location.href = 'listing.html';
+}

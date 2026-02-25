@@ -68,21 +68,18 @@ const sampleHouses = [
 // INITIALIZE DATA
 // ============================================
 function initializeData() {
-    // Check if we already have data in localStorage
     const stored = localStorage.getItem('rentdirect_houses');
     
     if (!stored) {
-        // First time - save sample data
         localStorage.setItem('rentdirect_houses', JSON.stringify(sampleHouses));
         return sampleHouses;
     }
     
-    // Return stored data
     return JSON.parse(stored);
 }
 
-// Global houses array
 let houses = initializeData();
+let currentHouses = [...houses]; // For search/filter
 
 // ============================================
 // DISPLAY FUNCTIONS
@@ -91,56 +88,91 @@ function displayHouses(housesToShow) {
     const grid = document.getElementById('listingsGrid');
     const count = document.getElementById('listingCount');
     
-    if (!grid) return; // Only run on index page
+    if (!grid) return;
     
     count.textContent = `(${housesToShow.length})`;
     
     if (housesToShow.length === 0) {
         grid.innerHTML = `
-            <div class="empty-state">
-                <h4>No houses found</h4>
-                <p>Try different filters or <a href="add-listing.html">add a listing</a>.</p>
+            <div class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>No houses found</h3>
+                <p>Try different search terms or filters</p>
             </div>
         `;
         return;
     }
     
-    grid.innerHTML = housesToShow.map(house => `
-        <div class="house-card" onclick="viewHouse(${house.id})">
+    grid.innerHTML = housesToShow.map((house, index) => `
+        <div class="house-card fade-in" onclick="viewHouse(${house.id})" style="animation-delay: ${index * 0.1}s">
             <div class="house-image">
-                <img src="${house.image}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                <img src="${house.image}" 
+                     alt="${house.title}" 
+                     onerror="this.src='https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18'"
+                     loading="lazy">
             </div>
             <div class="house-info">
                 <div class="house-price">₦${house.price.toLocaleString()}/year</div>
-                <h4>${house.title}</h4>
-                <p class="house-location">📍 ${house.locationName}</p>
+                <h4>${highlightMatch(house.title)}</h4>
+                <p class="house-location">📍 ${highlightMatch(house.locationName)}</p>
                 <div class="house-features">
                     <span>🛏️ ${house.bedrooms} bed</span>
                     <span>🚿 ${house.bathrooms} bath</span>
+                    ${house.features.includes('Security') ? '<span>🔒 Secure</span>' : ''}
                 </div>
             </div>
         </div>
     `).join('');
 }
 
+// Highlight search matches
+function highlightMatch(text) {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput || !searchInput.value) return text;
+    
+    const search = searchInput.value.toLowerCase();
+    if (!search) return text;
+    
+    const regex = new RegExp(`(${search})`, 'gi');
+    return text.replace(regex, '<mark style="background: var(--primary); padding: 2px 4px; border-radius: 4px;">$1</mark>');
+}
+
 // ============================================
-// FILTER FUNCTIONS
+// SEARCH & FILTER
 // ============================================
+function liveSearch() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    if (!searchTerm) {
+        currentHouses = [...houses];
+        displayHouses(currentHouses);
+        return;
+    }
+    
+    currentHouses = houses.filter(house => 
+        house.title.toLowerCase().includes(searchTerm) ||
+        house.locationName.toLowerCase().includes(searchTerm) ||
+        house.features.some(f => f.toLowerCase().includes(searchTerm)) ||
+        house.description.toLowerCase().includes(searchTerm)
+    );
+    
+    displayHouses(currentHouses);
+}
+
 function filterHouses() {
     const location = document.getElementById('locationFilter').value;
     const priceRange = document.getElementById('priceFilter').value;
     
-    // Refresh houses from localStorage
     houses = JSON.parse(localStorage.getItem('rentdirect_houses')) || sampleHouses;
     
     let filtered = houses;
     
-    // Filter by location
+    // Apply location filter
     if (location) {
         filtered = filtered.filter(h => h.location === location);
     }
     
-    // Filter by price
+    // Apply price filter
     if (priceRange) {
         if (priceRange === '0-200000') {
             filtered = filtered.filter(h => h.price <= 200000);
@@ -151,22 +183,37 @@ function filterHouses() {
         }
     }
     
-    displayHouses(filtered);
+    // Apply search if exists
+    const searchTerm = document.getElementById('searchInput')?.value.toLowerCase();
+    if (searchTerm) {
+        filtered = filtered.filter(house => 
+            house.title.toLowerCase().includes(searchTerm) ||
+            house.locationName.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    currentHouses = filtered;
+    displayHouses(currentHouses);
 }
 
 // ============================================
 // NAVIGATION
 // ============================================
 function viewHouse(id) {
-    localStorage.setItem('rentdirect_viewing', id);
-    window.location.href = 'listing.html';
+    // Add click animation
+    const card = event.currentTarget;
+    card.style.transform = 'scale(0.98)';
+    
+    setTimeout(() => {
+        localStorage.setItem('rentdirect_viewing', id);
+        window.location.href = 'listing.html';
+    }, 150);
 }
 
 // ============================================
-// INITIALIZE ON PAGE LOAD
+// INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run on index page
     if (document.getElementById('listingsGrid')) {
         displayHouses(houses);
     }

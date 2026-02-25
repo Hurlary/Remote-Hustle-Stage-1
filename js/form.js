@@ -1,28 +1,9 @@
 function saveListing(event) {
     event.preventDefault();
     
-    // Check if user is logged in
-    const user = checkAuth();
-    
-    // Get form values...
-    // [existing code]
-    
-    // Create new house object - add user info if logged in
-    const newHouse = {
-        id: Date.now(),
-        // ... existing fields ...
-        listedBy: user ? user.email : 'guest',
-        listedAt: new Date().toISOString()
-    };
-    
-    // ... rest of save code
-}
-
-// ============================================
-// SAVE NEW LISTING
-// ============================================
-function saveListing(event) {
-    event.preventDefault();
+    // Get logged in user
+    const user = localStorage.getItem('rentdirect_user');
+    const userData = user ? JSON.parse(user) : null;
     
     // Get form values
     const title = document.getElementById('title').value.trim();
@@ -40,7 +21,7 @@ function saveListing(event) {
     const featureCheckboxes = document.querySelectorAll('.checkbox-group input:checked');
     const features = Array.from(featureCheckboxes).map(cb => cb.value);
     
-    // Get location name
+    // Location names
     const locationNames = {
         'lagos-island': 'Lagos Island',
         'ikeja': 'Ikeja, Lagos',
@@ -50,9 +31,9 @@ function saveListing(event) {
         'other': 'Other Location'
     };
     
-    // Create new house object
+    // Create new house
     const newHouse = {
-        id: Date.now(), // Unique ID based on timestamp
+        id: Date.now(),
         title: title,
         location: location,
         locationName: locationNames[location] || location,
@@ -60,33 +41,21 @@ function saveListing(event) {
         bedrooms: bedrooms,
         bathrooms: bathrooms,
         features: features,
-        image: image || "https://via.placeholder.com/400x300?text=No+Image",
+        image: image || "https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18",
         contactName: contactName,
         contactPhone: contactPhone,
         contactWhatsapp: contactWhatsapp,
-        description: description
+        description: description,
+        listedBy: userData ? userData.email : 'guest',
+        listedAt: new Date().toISOString()
     };
     
-    // Get existing houses
+    // Save to localStorage
     const existingHouses = JSON.parse(localStorage.getItem('rentdirect_houses')) || [];
-    
-    // Add new house
     existingHouses.push(newHouse);
-    
-    // Save back to localStorage
     localStorage.setItem('rentdirect_houses', JSON.stringify(existingHouses));
     
-    // Show success modal
+    // Show success
     document.getElementById('successModal').style.display = 'block';
-    
-    // Reset form
     document.getElementById('listingForm').reset();
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('successModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
 }
