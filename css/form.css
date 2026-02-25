@@ -205,3 +205,23 @@
 .form-group select:valid:not(:placeholder-shown) {
     border-color: #b2ffca;
 }
+select[size="6"] {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+select option {
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+select option:hover {
+    background: var(--primary);
+    color: var(--text-dark);
+}

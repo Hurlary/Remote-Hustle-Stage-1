@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - RentDirect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .settings-section {
+            padding: 2rem 0;
+            background: var(--bg-light);
+            min-height: calc(100vh - 200px);
+        }
+
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .settings-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-preview {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--analogous-1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .profile-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ffe7dc;
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .toggle-info p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .danger-zone {
+            border: 2px solid #ffb2c1;
+            background: #fff9f6;
+        }
+
+        .danger-zone h3 {
+            color: #a28273;
+            border-bottom-color: #ffb2c1;
+        }
+
+        .btn-danger {
+            background: #ffb2c1;
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #ff9eb0;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--analogous-1) 100%);
+            color: var(--text-dark);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 202, 178, 0.4);
+        }
+
+        .save-message {
+            display: none;
+            background: #b2ffca;
+            color: var(--text-dark);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-small">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <a href="account.html" class="back-link">← Back to Account</a>
+                <h1 style="margin-top: 0.5rem;">⚙️ Settings</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Settings Section -->
+    <section class="settings-section">
+        <div class="container settings-container">
+            
+            <!-- Profile Settings -->
+            <div class="settings-card">
+                <h3>👤 Profile Information</h3>
+                
+                <div class="profile-preview">
+                    <div class="profile-avatar" id="userAvatar">👤</div>
+                    <div class="profile-info">
+                        <h4 id="displayName">User Name</h4>
+                        <p id="displayEmail">user@email.com</p>
+                        <p id="displayType" style="margin-top: 0.5rem; color: var(--primary-darker); font-weight: 600;">Landlord</p>
+                    </div>
+                </div>
+
+                <form id="profileForm" onsubmit="updateProfile(event)">
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="editName">Full Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group half">
+                            <label for="editPhone">Phone Number</label>
+                            <input type="tel" id="editPhone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEmail">Email Address</label>
+                        <input type="email" id="editEmail" required disabled style="background: var(--bg-card); cursor: not-allowed;">
+                        <small>Email cannot be changed</small>
+                    </div>
+
+                    <button type="submit" class="btn-save">Save Changes</button>
+                    <div class="save-message" id="saveMessage">✅ Profile updated successfully!</div>
+                </form>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="settings-card">
+                <h3>🔔 Notifications</h3>
+                
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Email Notifications</h4>
+                        <p>Get notified when someone views your listing</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailNotif" checked onchange="savePreference('emailNotif', this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>WhatsApp Alerts</h4>
+                        <p>Receive messages when renters contact you</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="whatsappNotif" onchange="savePreference('whatsappNotif', this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Marketing Updates</h4>
+                        <p>Tips to get more renters for your property</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="marketingNotif" checked onchange="savePreference('marketingNotif', this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Privacy & Security -->
+            <div class="settings-card">
+                <h3>🔒 Privacy & Security</h3>
+                
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Public Profile</h4>
+                        <p>Allow others to see your listings and contact info</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="publicProfile" checked onchange="savePreference('publicProfile', this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Show Phone Number</h4>
+                        <p>Display your phone on listings (recommended)</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="showPhone" checked onchange="savePreference('showPhone', this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-card danger-zone">
+                <h3>⚠️ Danger Zone</h3>
+                <p style="color: var(--text-medium); margin-bottom: 1.5rem;">These actions cannot be undone. Please be certain.</p>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn-danger" onclick="clearAllData()">🗑️ Clear All My Listings</button>
+                    <button class="btn-danger" onclick="deleteAccount()" style="background: #ff9eb0;">🚫 Delete My Account</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Load user data
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+            
+            if (!user.email) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display current info
+            document.getElementById('displayName').textContent = user.fullName || 'User';
+            document.getElementById('displayEmail').textContent = user.email;
+            document.getElementById('userAvatar').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+            document.getElementById('displayType').textContent = user.userType ? user.userType.charAt(0).toUpperCase() + user.userType.slice(1) : 'User';
+            
+            // Fill form
+            document.getElementById('editName').value = user.fullName || '';
+            document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editPhone').value = user.phone || '';
+
+            // Load saved preferences
+            loadPreferences();
+        });
+
+        // Update profile
+        function updateProfile(event) {
+            event.preventDefault();
+            
+            const user = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+            
+            user.fullName = document.getElementById('editName').value;
+            user.phone = document.getElementById('editPhone').value;
+            
+            localStorage.setItem('rentdirect_user', JSON.stringify(user));
+            
+            // Update display
+            document.getElementById('displayName').textContent = user.fullName;
+            document.getElementById('userAvatar').textContent = user.fullName.charAt(0).toUpperCase();
+            
+            // Show success
+            const msg = document.getElementById('saveMessage');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+
+        // Save preferences
+        function savePreference(key, value) {
+            const prefs = JSON.parse(localStorage.getItem('rentdirect_preferences') || '{}');
+            prefs[key] = value;
+            localStorage.setItem('rentdirect_preferences', JSON.stringify(prefs));
+        }
+
+        // Load preferences
+        function loadPreferences() {
+            const prefs = JSON.parse(localStorage.getItem('rentdirect_preferences') || '{}');
+            
+            document.getElementById('emailNotif').checked = prefs.emailNotif !== false;
+            document.getElementById('whatsappNotif').checked = prefs.whatsappNotif === true;
+            document.getElementById('marketingNotif').checked = prefs.marketingNotif !== false;
+            document.getElementById('publicProfile').checked = prefs.publicProfile !== false;
+            document.getElementById('showPhone').checked = prefs.showPhone !== false;
+        }
+
+        // Clear all listings
+        function clearAllData() {
+            if (!confirm('⚠️ This will delete ALL your house listings. Continue?')) return;
+            
+            const user = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+            let houses = JSON.parse(localStorage.getItem('rentdirect_houses') || '[]');
+            
+            // Remove houses by this user
+            houses = houses.filter(h => h.listedBy !== user.email);
+            localStorage.setItem('rentdirect_houses', JSON.stringify(houses));
+            
+            alert('✅ All your listings have been cleared.');
+        }
+
+        // Delete account
+        function deleteAccount() {
+            if (!confirm('🚫 This will permanently delete your account and all listings. This cannot be undone!')) return;
+            
+            if (!prompt('Type DELETE to confirm:') === 'DELETE') {
+                alert('Account deletion cancelled.');
+                return;
+            }
+            
+            const user = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+            let houses = JSON.parse(localStorage.getItem('rentdirect_houses') || '[]');
+            
+            // Remove user's houses
+            houses = houses.filter(h => h.listedBy !== user.email);
+            localStorage.setItem('rentdirect_houses', JSON.stringify(houses));
+            
+            // Remove user
+            localStorage.removeItem('rentdirect_user');
+            localStorage.removeItem('rentdirect_preferences');
+            
+            alert('Your account has been deleted.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

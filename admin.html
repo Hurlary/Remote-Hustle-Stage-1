@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - RentDirect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-darker);
+        }
+        .all-listings-table {
+            width: 100%;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .all-listings-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .all-listings-table th,
+        .all-listings-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #ffe7dc;
+        }
+        .all-listings-table th {
+            background: var(--primary);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .all-listings-table tr:hover {
+            background: var(--bg-card);
+        }
+        .btn-delete {
+            background: #ffb2c1;
+            color: #1e1a18;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-small">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Site</a>
+            <h1>🏠 RentDirect Admin</h1>
+        </div>
+    </header>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">Platform Overview</h2>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalListings">0</div>
+                    <div>Total Listings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div>Registered Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalStates">0</div>
+                    <div>States Covered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgPrice">₦0</div>
+                    <div>Average Price</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 1rem;">All Listings</h3>
+            <div class="all-listings-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminListings">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple "admin check" - in real app, this would be secure!
+        const isAdmin = localStorage.getItem('rentdirect_admin');
+        if (!isAdmin) {
+            // For demo, auto-set admin if user email contains "admin"
+            const user = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+            if (!user.email || !user.email.includes('admin')) {
+                // Uncomment below to restrict access
+                // window.location.href = 'index.html';
+            } else {
+                localStorage.setItem('rentdirect_admin', 'true');
+            }
+        }
+
+        // Load all data
+        function loadAdminData() {
+            const houses = JSON.parse(localStorage.getItem('rentdirect_houses')) || [];
+            
+            // Stats
+            document.getElementById('totalListings').textContent = houses.length;
+            document.getElementById('totalUsers').textContent = new Set(houses.map(h => h.listedBy)).size;
+            
+            const uniqueStates = new Set(houses.map(h => h.location));
+            document.getElementById('totalStates').textContent = uniqueStates.size;
+            
+            const avg = houses.length ? houses.reduce((a, b) => a + b.price, 0) / houses.length : 0;
+            document.getElementById('avgPrice').textContent = '₦' + Math.round(avg).toLocaleString();
+            
+            // Table
+            const tbody = document.getElementById('adminListings');
+            tbody.innerHTML = houses.map(h => `
+                <tr>
+                    <td>${h.id}</td>
+                    <td>${h.title}</td>
+                    <td>${h.locationName}</td>
+                    <td>₦${h.price.toLocaleString()}</td>
+                    <td>${h.contactName}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteListing(${h.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteListing(id) {
+            if (!confirm('Delete this listing?')) return;
+            let houses = JSON.parse(localStorage.getItem('rentdirect_houses')) || [];
+            houses = houses.filter(h => h.id !== id);
+            localStorage.setItem('rentdirect_houses', JSON.stringify(houses));
+            loadAdminData();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAdminData);
+    </script>
+</body>
+</html>
