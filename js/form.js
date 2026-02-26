@@ -1,4 +1,19 @@
 // ============================================
+// PROTECT ADD LISTING PAGE - LOGIN REQUIRED
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const user = localStorage.getItem('rentdirect_user');
+    
+    // If not logged in, redirect to login
+    if (!user) {
+        alert('Please login to add a listing.');
+        window.location.href = 'login.html?redirect=add-listing.html';
+        return;
+    }
+});
+
+// ============================================
 // PHOTO PREVIEW FUNCTIONS
 // ============================================
 
@@ -37,8 +52,14 @@ function saveListing(event) {
     event.preventDefault();
     
     // Get logged in user
-    const user = localStorage.getItem('rentdirect_user');
-    const userData = user ? JSON.parse(user) : null;
+    const userData = JSON.parse(localStorage.getItem('rentdirect_user') || '{}');
+    
+    // Redirect if not logged in
+    if (!userData.email) {
+        alert('Please login to add a listing.');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Get form values
     const title = document.getElementById('title').value.trim();
@@ -51,7 +72,7 @@ function saveListing(event) {
     const contactPhone = document.getElementById('contactPhone').value.trim();
     const contactWhatsapp = document.getElementById('contactWhatsapp').value.trim();
     
-    // Get all photos
+    // Get photos
     const photos = getPhotos();
     
     // Get selected features
@@ -60,42 +81,15 @@ function saveListing(event) {
     
     // Location names
     const locationNames = {
-        'abia': 'Abia',
-        'adamawa': 'Adamawa',
-        'akwa-ibom': 'Akwa Ibom',
-        'anambra': 'Anambra',
-        'bauchi': 'Bauchi',
-        'bayelsa': 'Bayelsa',
-        'benue': 'Benue',
-        'borno': 'Borno',
-        'cross-river': 'Cross River',
-        'delta': 'Delta',
-        'ebonyi': 'Ebonyi',
-        'edo': 'Edo',
-        'ekiti': 'Ekiti',
-        'enugu': 'Enugu',
-        'gombe': 'Gombe',
-        'imo': 'Imo',
-        'jigawa': 'Jigawa',
-        'kaduna': 'Kaduna',
-        'kano': 'Kano',
-        'katsina': 'Katsina',
-        'kebbi': 'Kebbi',
-        'kogi': 'Kogi',
-        'kwara': 'Kwara',
-        'lagos': 'Lagos',
-        'nasarawa': 'Nasarawa',
-        'niger': 'Niger',
-        'ogun': 'Ogun',
-        'ondo': 'Ondo',
-        'osun': 'Osun',
-        'oyo': 'Oyo',
-        'plateau': 'Plateau',
-        'rivers': 'Rivers',
-        'sokoto': 'Sokoto',
-        'taraba': 'Taraba',
-        'yobe': 'Yobe',
-        'zamfara': 'Zamfara',
+        'abia': 'Abia', 'adamawa': 'Adamawa', 'akwa-ibom': 'Akwa Ibom', 'anambra': 'Anambra',
+        'bauchi': 'Bauchi', 'bayelsa': 'Bayelsa', 'benue': 'Benue', 'borno': 'Borno',
+        'cross-river': 'Cross River', 'delta': 'Delta', 'ebonyi': 'Ebonyi', 'edo': 'Edo',
+        'ekiti': 'Ekiti', 'enugu': 'Enugu', 'gombe': 'Gombe', 'imo': 'Imo',
+        'jigawa': 'Jigawa', 'kaduna': 'Kaduna', 'kano': 'Kano', 'katsina': 'Katsina',
+        'kebbi': 'Kebbi', 'kogi': 'Kogi', 'kwara': 'Kwara', 'lagos': 'Lagos',
+        'nasarawa': 'Nasarawa', 'niger': 'Niger', 'ogun': 'Ogun', 'ondo': 'Ondo',
+        'osun': 'Osun', 'oyo': 'Oyo', 'plateau': 'Plateau', 'rivers': 'Rivers',
+        'sokoto': 'Sokoto', 'taraba': 'Taraba', 'yobe': 'Yobe', 'zamfara': 'Zamfara',
         'fct': 'FCT (Abuja)'
     };
     
@@ -115,7 +109,9 @@ function saveListing(event) {
         contactPhone: contactPhone,
         contactWhatsapp: contactWhatsapp,
         description: description,
-        listedBy: userData ? userData.email : 'guest',
+        // CRITICAL: Link to user email for dashboard
+        listedBy: userData.email,
+        listedByName: userData.fullName,
         listedAt: new Date().toISOString()
     };
     
@@ -129,7 +125,8 @@ function saveListing(event) {
     document.getElementById('listingForm').reset();
     
     // Hide all previews
-    document.getElementById('preview1').style.display = 'none';
-    document.getElementById('preview2').style.display = 'none';
-    document.getElementById('preview3').style.display = 'none';
+    for (let i = 1; i <= 3; i++) {
+        const preview = document.getElementById(`preview${i}`);
+        if (preview) preview.style.display = 'none';
+    }
 }

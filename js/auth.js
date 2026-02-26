@@ -40,7 +40,12 @@ function handleLogin(event) {
     };
     
     localStorage.setItem('rentdirect_user', JSON.stringify(user));
-    window.location.href = 'account.html';
+    
+    // Check for redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+    
+    window.location.href = redirect || 'account.html';
 }
 
 // Logout

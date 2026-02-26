@@ -1,3 +1,12 @@
+function checkLoginForListing() {
+    const user = localStorage.getItem('rentdirect_user');
+    if (!user) {
+        alert('Please login to add a listing.');
+        window.location.href = 'login.html?redirect=add-listing.html';
+        return false;
+    }
+    return true;
+}
 // ============================================
 // SAMPLE HOUSE DATA
 // ============================================
