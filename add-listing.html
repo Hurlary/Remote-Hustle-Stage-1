@@ -133,13 +133,53 @@
                         </div>
                     </div>
 
-                    <!-- Image URL -->
-                    <div class="form-group">
-                        <label for="image">House Image URL</label>
-                        <input type="url" id="image" 
-                               placeholder="https://example.com/image.jpg">
-                        <small>Paste a link to your house photo (optional)</small>
+                <!-- House Photos (Up to 3) -->
+                <div class="form-group">
+                    <label>House Photos <small>(Up to 3 images)</small></label>
+                    
+                    <div class="photo-inputs">
+                        <!-- Photo 1 (Main) -->
+                        <div class="photo-input-group">
+                            <label for="image1" class="photo-label">Main Photo *</label>
+                            <input type="url" id="image1" required
+                                placeholder="https://example.com/photo1.jpg"
+                                oninput="previewPhoto(1, this.value)">
+                            <div id="preview1" class="photo-preview" style="display: none;">
+                                <img src="" alt="Preview 1">
+                            </div>
+                        </div>
+
+                        <!-- Photo 2 -->
+                        <div class="photo-input-group">
+                            <label for="image2" class="photo-label">Photo 2 <small>(optional)</small></label>
+                            <input type="url" id="image2"
+                                placeholder="https://example.com/photo2.jpg"
+                                oninput="previewPhoto(2, this.value)">
+                            <div id="preview2" class="photo-preview" style="display: none;">
+                                <img src="" alt="Preview 2">
+                            </div>
+                        </div>
+
+                        <!-- Photo 3 -->
+                        <div class="photo-input-group">
+                            <label for="image3" class="photo-label">Photo 3 <small>(optional)</small></label>
+                            <input type="url" id="image3"
+                                placeholder="https://example.com/photo3.jpg"
+                                oninput="previewPhoto(3, this.value)">
+                            <div id="preview3" class="photo-preview" style="display: none;">
+                                <img src="" alt="Preview 3">
+                            </div>
+                        </div>
                     </div>
+                    
+                    <small class="photo-help">
+                        💡 <strong>Tip:</strong> Use free image hosting like 
+                        <a href="https://imgur.com/upload" target="_blank">Imgur</a>, 
+                        <a href="https://postimages.org" target="_blank">Postimages</a>, or 
+                        <a href="https://cloudinary.com" target="_blank">Cloudinary</a>. 
+                        Copy the "Direct Link" and paste above.
+                    </small>
+                </div>
 
                     <!-- Description -->
                     <div class="form-group">

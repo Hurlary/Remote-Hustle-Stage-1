@@ -1,3 +1,38 @@
+// ============================================
+// PHOTO PREVIEW FUNCTIONS
+// ============================================
+
+// Preview photo as user types
+function previewPhoto(num, url) {
+    const previewDiv = document.getElementById(`preview${num}`);
+    const previewImg = previewDiv.querySelector('img');
+    
+    if (!url) {
+        previewDiv.style.display = 'none';
+        return;
+    }
+    
+    previewImg.src = url;
+    previewImg.onerror = function() {
+        this.src = 'https://via.placeholder.com/400x300?text=Invalid+Image&bg=ffcab2&fg=1e1a18';
+    };
+    previewDiv.style.display = 'block';
+}
+
+// Get all photos array
+function getPhotos() {
+    const photos = [];
+    const img1 = document.getElementById('image1').value.trim();
+    const img2 = document.getElementById('image2').value.trim();
+    const img3 = document.getElementById('image3').value.trim();
+    
+    if (img1) photos.push(img1);
+    if (img2) photos.push(img2);
+    if (img3) photos.push(img3);
+    
+    return photos;
+}
+
 function saveListing(event) {
     event.preventDefault();
     
@@ -11,11 +46,13 @@ function saveListing(event) {
     const price = parseInt(document.getElementById('price').value);
     const bedrooms = parseInt(document.getElementById('bedrooms').value);
     const bathrooms = parseInt(document.getElementById('bathrooms').value);
-    const image = document.getElementById('image').value.trim();
     const description = document.getElementById('description').value.trim();
     const contactName = document.getElementById('contactName').value.trim();
     const contactPhone = document.getElementById('contactPhone').value.trim();
     const contactWhatsapp = document.getElementById('contactWhatsapp').value.trim();
+    
+    // Get all photos
+    const photos = getPhotos();
     
     // Get selected features
     const featureCheckboxes = document.querySelectorAll('.checkbox-group input:checked');
@@ -23,15 +60,46 @@ function saveListing(event) {
     
     // Location names
     const locationNames = {
-        'lagos-island': 'Lagos Island',
-        'ikeja': 'Ikeja, Lagos',
-        'yaba': 'Yaba, Lagos',
-        'lekki': 'Lekki, Lagos',
-        'abuja': 'Abuja',
-        'other': 'Other Location'
+        'abia': 'Abia',
+        'adamawa': 'Adamawa',
+        'akwa-ibom': 'Akwa Ibom',
+        'anambra': 'Anambra',
+        'bauchi': 'Bauchi',
+        'bayelsa': 'Bayelsa',
+        'benue': 'Benue',
+        'borno': 'Borno',
+        'cross-river': 'Cross River',
+        'delta': 'Delta',
+        'ebonyi': 'Ebonyi',
+        'edo': 'Edo',
+        'ekiti': 'Ekiti',
+        'enugu': 'Enugu',
+        'gombe': 'Gombe',
+        'imo': 'Imo',
+        'jigawa': 'Jigawa',
+        'kaduna': 'Kaduna',
+        'kano': 'Kano',
+        'katsina': 'Katsina',
+        'kebbi': 'Kebbi',
+        'kogi': 'Kogi',
+        'kwara': 'Kwara',
+        'lagos': 'Lagos',
+        'nasarawa': 'Nasarawa',
+        'niger': 'Niger',
+        'ogun': 'Ogun',
+        'ondo': 'Ondo',
+        'osun': 'Osun',
+        'oyo': 'Oyo',
+        'plateau': 'Plateau',
+        'rivers': 'Rivers',
+        'sokoto': 'Sokoto',
+        'taraba': 'Taraba',
+        'yobe': 'Yobe',
+        'zamfara': 'Zamfara',
+        'fct': 'FCT (Abuja)'
     };
     
-    // Create new house
+    // Create new house object
     const newHouse = {
         id: Date.now(),
         title: title,
@@ -41,7 +109,8 @@ function saveListing(event) {
         bedrooms: bedrooms,
         bathrooms: bathrooms,
         features: features,
-        image: image || "https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18",
+        images: photos,
+        image: photos[0] || "https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18",
         contactName: contactName,
         contactPhone: contactPhone,
         contactWhatsapp: contactWhatsapp,
@@ -58,4 +127,9 @@ function saveListing(event) {
     // Show success
     document.getElementById('successModal').style.display = 'block';
     document.getElementById('listingForm').reset();
+    
+    // Hide all previews
+    document.getElementById('preview1').style.display = 'none';
+    document.getElementById('preview2').style.display = 'none';
+    document.getElementById('preview3').style.display = 'none';
 }

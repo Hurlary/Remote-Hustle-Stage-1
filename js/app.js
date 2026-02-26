@@ -12,6 +12,7 @@ const sampleHouses = [
         bathrooms: 2,
         features: ["Parking", "Security", "Water"],
         image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400",
+        images: ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400"],
         contactName: "Mr. Ade",
         contactPhone: "08012345678",
         contactWhatsapp: "2348012345678",
@@ -27,6 +28,7 @@ const sampleHouses = [
         bathrooms: 1,
         features: ["Prepaid Meter", "Fenced", "POP Ceiling"],
         image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400",
+        images: ["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400"],
         contactName: "Mrs. Okon",
         contactPhone: "08087654321",
         contactWhatsapp: "2348087654321",
@@ -42,6 +44,7 @@ const sampleHouses = [
         bathrooms: 3,
         features: ["Pool", "Gym", "24/7 Power", "Security"],
         image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400",
+        images: ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400"],
         contactName: "Mr. Johnson",
         contactPhone: "07011223344",
         contactWhatsapp: "2347011223344",
@@ -50,13 +53,14 @@ const sampleHouses = [
     {
         id: 4,
         title: "1 Bedroom Mini Flat",
-        location: "lagos-island",
+        location: "lagos",
         locationName: "Lagos Island",
         price: 250000,
         bedrooms: 1,
         bathrooms: 1,
         features: ["Water Heater", "Kitchen Cabinets"],
         image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400",
+        images: ["https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400"],
         contactName: "Alhaji Musa",
         contactPhone: "08033334444",
         contactWhatsapp: "2348033334444",
@@ -64,6 +68,9 @@ const sampleHouses = [
     }
 ];
 
+// ============================================
+// LOCATION NAMES
+// ============================================
 const locationNames = {
     'abia': 'Abia',
     'adamawa': 'Adamawa',
@@ -115,11 +122,25 @@ function initializeData() {
         return sampleHouses;
     }
     
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored);
+    
+    // Migrate old data format to new format
+    const migrated = parsed.map(h => {
+        if (!h.images && h.image) {
+            return { ...h, images: [h.image] };
+        }
+        return h;
+    });
+    
+    if (JSON.stringify(parsed) !== JSON.stringify(migrated)) {
+        localStorage.setItem('rentdirect_houses', JSON.stringify(migrated));
+    }
+    
+    return migrated;
 }
 
 let houses = initializeData();
-let currentHouses = [...houses]; // For search/filter
+let currentHouses = [...houses];
 
 // ============================================
 // DISPLAY FUNCTIONS
@@ -143,13 +164,23 @@ function displayHouses(housesToShow) {
         return;
     }
     
-    grid.innerHTML = housesToShow.map((house, index) => `
+    grid.innerHTML = housesToShow.map((house, index) => {
+        const mainImage = house.images && house.images.length > 0 
+            ? house.images[0] 
+            : house.image || "https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18";
+        
+        const photoCount = house.images && house.images.length > 1 
+            ? house.images.length 
+            : 0;
+        
+        return `
         <div class="house-card fade-in" onclick="viewHouse(${house.id})" style="animation-delay: ${index * 0.1}s">
             <div class="house-image">
-                <img src="${house.image}" 
+                <img src="${mainImage}" 
                      alt="${house.title}" 
                      onerror="this.src='https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18'"
                      loading="lazy">
+                ${photoCount > 1 ? `<span class="photo-count">📷 ${photoCount}</span>` : ''}
             </div>
             <div class="house-info">
                 <div class="house-price">₦${house.price.toLocaleString()}/year</div>
@@ -162,10 +193,9 @@ function displayHouses(housesToShow) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
-// Highlight search matches
 function highlightMatch(text) {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput || !searchInput.value) return text;
@@ -207,12 +237,10 @@ function filterHouses() {
     
     let filtered = houses;
     
-    // Apply location filter
     if (location) {
         filtered = filtered.filter(h => h.location === location);
     }
     
-    // Apply price filter
     if (priceRange) {
         if (priceRange === '0-200000') {
             filtered = filtered.filter(h => h.price <= 200000);
@@ -223,7 +251,6 @@ function filterHouses() {
         }
     }
     
-    // Apply search if exists
     const searchTerm = document.getElementById('searchInput')?.value.toLowerCase();
     if (searchTerm) {
         filtered = filtered.filter(house => 
@@ -240,7 +267,6 @@ function filterHouses() {
 // NAVIGATION
 // ============================================
 function viewHouse(id) {
-    // Add click animation
     const card = event.currentTarget;
     card.style.transform = 'scale(0.98)';
     

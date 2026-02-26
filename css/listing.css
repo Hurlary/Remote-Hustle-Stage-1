@@ -347,3 +347,28 @@
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+/* Price badge on main photo */
+.price-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--bg-white);
+    color: var(--text-dark);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.price-badge span {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    display: block;
+    font-weight: normal;
+}
+
+.main-photo {
+    position: relative;
+}
