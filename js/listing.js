@@ -60,7 +60,7 @@ function displayListing(house) {
             <div class="photo-gallery">
                 <div class="main-photo">
                     <img id="mainImage" src="${currentImages[0]}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400x300?text=RentDirect&bg=ffcab2&fg=1e1a18'">
-                    <div class="price-badge">₦${house.price.toLocaleString()}<span>per year</span></div>
+                    <div class="price-badge">${house.price.toLocaleString()}<span>per year</span></div>
                 </div>
                 <div class="photo-thumbnails">
                     ${currentImages.map((img, idx) => `
