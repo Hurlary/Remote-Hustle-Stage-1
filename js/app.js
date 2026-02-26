@@ -192,7 +192,7 @@ function displayHouses(housesToShow) {
                 ${photoCount > 1 ? `<span class="photo-count">📷 ${photoCount}</span>` : ''}
             </div>
             <div class="house-info">
-                <div class="house-price">₦${house.price.toLocaleString()}/year</div>
+                <div class="house-price">${house.price.toLocaleString()}/year</div>
                 <h4>${highlightMatch(house.title)}</h4>
                 <p class="house-location">📍 ${highlightMatch(house.locationName)}</p>
                 <div class="house-features">
