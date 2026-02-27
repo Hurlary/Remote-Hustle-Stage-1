@@ -14,8 +14,8 @@ const sampleHouses = [
     {
         id: 1,
         title: "Spacious 2 Bedroom Apartment",
-        location: "oyo",
-        locationName: "Ibadan",
+        location: "benue",
+        locationName: "Markurdi",
         price: 350000,
         bedrooms: 2,
         bathrooms: 2,
@@ -30,8 +30,8 @@ const sampleHouses = [
     {
         id: 2,
         title: "Self-Contained Studio",
-        location: "Abia",
-        locationName: "Umuahia",
+        location: "adamawa",
+        locationName: "Yola",
         price: 180000,
         bedrooms: 1,
         bathrooms: 1,
@@ -46,8 +46,8 @@ const sampleHouses = [
     {
         id: 3,
         title: "3 Bedroom Duplex",
-        location: "kaduna",
-        locationName: "Barnawa",
+        location: "abia",
+        locationName: "Umuahia",
         price: 750000,
         bedrooms: 3,
         bathrooms: 3,
